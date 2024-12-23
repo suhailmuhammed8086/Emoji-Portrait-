@@ -12,6 +12,8 @@ package com.app.emoji_drawer
 
 import android.graphics.Canvas
 import android.graphics.PointF
+import android.graphics.Rect
+import android.graphics.RectF
 import android.util.Log
 import android.util.SizeF
 
@@ -30,4 +32,11 @@ fun SizeF.isUnset(): Boolean {
 
 fun Canvas.getCenterPoints(): Pair<Float, Float> {
     return (width/2f) to (height/2f)
+}
+
+fun RectF.invertHorizontally() {
+    set(right, top, left, bottom)
+}
+fun Rect.invertHorizontally() {
+    set(right, top, left, bottom)
 }

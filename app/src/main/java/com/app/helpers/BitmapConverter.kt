@@ -17,7 +17,7 @@ object BitmapConverter {
         isAntiAlias = false
     }
 
-    // w/h = w1 / h1
+
     fun generateBitmap(
         text: String,
     ): Bitmap {
@@ -27,16 +27,13 @@ object BitmapConverter {
         while (paint.measureText(text) > canvas.width) {
             paint.textSize -= 1f
         }
-        val width = paint.measureText(text).log("width")
+        val width = paint.measureText(text)
         val bounds = Rect()
 //        val height = bounds.height() / bounds
         paint.getTextBounds(text, 0, text.length, bounds)
         val x = (canvas.width - width)/2f
         val y = canvas.height * 0.75f
         canvas.drawText(text, x, y, paint)
-        canvas.drawLine(0f,y,canvas.width.toFloat(),y, Paint().apply {
-            this.color = Color.RED
-        })
         return bitmap
     }
 }

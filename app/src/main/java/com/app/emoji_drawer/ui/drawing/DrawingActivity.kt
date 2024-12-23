@@ -12,7 +12,10 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.emoji2.emojipicker.EmojiViewItem
 import com.app.emoji_drawer.R
+import com.app.emoji_drawer.components.JoyStickView
 import com.app.emoji_drawer.databinding.ActivityDrawingBinding
+import com.app.emoji_drawer.log
+import com.app.emoji_drawer.model.DrawingObject
 import com.app.emoji_drawer.ui.BaseActivity
 import com.app.emoji_drawer.ui.drawing.DrawingViewModel.MenuPositions.*
 import com.app.emoji_drawer.ui.emoji.EmojiPickerFragment
@@ -47,6 +50,23 @@ class DrawingActivity : BaseActivity(), View.OnClickListener, EmojiPickerFragmen
 
     private fun initView() {
         binding.menuLayout.setOnClickListener(this)
+        binding.joyStickView.setListener(object : JoyStickView.Listener {
+            override fun onChange(dx: Float, dy: Float) {
+                binding.drawingCanvas.updateDrawObjectPosition(dx, dy)
+            }
+        })
+
+        binding.angleSlider.addOnChangeListener { slider, value, fromUser ->
+            val angle = (360/100) * value
+            angle.log("angle")
+            binding.drawingCanvas.updateRotation(angle)
+        }
+        binding.btPlusSize.setOnPressed {
+            binding.drawingCanvas.increaseSize()
+        }
+        binding.btMinusSize.setOnPressed {
+            binding.drawingCanvas.decreaseSize()
+        }
     }
 
     override fun observeViewModel() {
@@ -77,16 +97,12 @@ class DrawingActivity : BaseActivity(), View.OnClickListener, EmojiPickerFragmen
     }
 
     override fun onEmojiPicked(emojiViewItem: EmojiViewItem) {
-        var text = emojiViewItem.emoji
-        emojiViewItem.variants.forEach {
-            text += it
-        }
-        binding.tvEmoji.text = text
-
         val image = BitmapConverter.generateBitmap(emojiViewItem.emoji)
-        val file = File.createTempFile("converted-",".jpg")
-        image.compress(Bitmap.CompressFormat.JPEG, 100, file.outputStream())
-
+        binding.drawingCanvas.addDrawObject(
+            DrawingObject(
+                type = DrawingObject.DrawingObjectType.Emoji(image)
+            )
+        )
 
     }
 }
