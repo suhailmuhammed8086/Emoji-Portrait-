@@ -12,6 +12,7 @@
         android:id="@+id/drawingCanvas"
         android:layout_width="0dp"
         android:layout_height="0dp"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -81,6 +82,20 @@
             app:layout_constraintStart_toEndOf="@id/joyStickView"
             app:layout_constraintTop_toBottomOf="@id/tvSize" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.app.emoji_drawer.components.BitmapEditorView
+        android:id="@+id/bmEditor"
+        android:layout_width="0dp"
+        android:visibility="gone"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <include
+        android:id="@+id/overlayOptions"
+        layout="@layout/layout_overlay_options"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

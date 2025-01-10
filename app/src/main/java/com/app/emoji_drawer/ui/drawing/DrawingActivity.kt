@@ -3,6 +3,7 @@ package com.app.emoji_drawer.ui.drawing
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.view.View
 import androidx.activity.enableEdgeToEdge
@@ -13,6 +14,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.emoji2.emojipicker.EmojiViewItem
 import com.app.emoji_drawer.R
 import com.app.emoji_drawer.components.JoyStickView
+import com.app.emoji_drawer.components.handlers.OverlayOptionHandler
 import com.app.emoji_drawer.databinding.ActivityDrawingBinding
 import com.app.emoji_drawer.log
 import com.app.emoji_drawer.model.DrawingObject
@@ -33,6 +35,7 @@ class DrawingActivity : BaseActivity(), View.OnClickListener, EmojiPickerFragmen
 
     private lateinit var binding: ActivityDrawingBinding
     private val viewModel: DrawingViewModel by viewModels()
+    private lateinit var overlayOption: OverlayOptionHandler
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,6 +49,7 @@ class DrawingActivity : BaseActivity(), View.OnClickListener, EmojiPickerFragmen
         }
 
         initView()
+        binding.bmEditor.loadBitmap(BitmapFactory.decodeResource(resources, R.drawable.img_1))
     }
 
     private fun initView() {
@@ -67,6 +71,8 @@ class DrawingActivity : BaseActivity(), View.OnClickListener, EmojiPickerFragmen
         binding.btMinusSize.setOnPressed {
             binding.drawingCanvas.decreaseSize()
         }
+
+        overlayOption = OverlayOptionHandler(binding.overlayOptions)
     }
 
     override fun observeViewModel() {
